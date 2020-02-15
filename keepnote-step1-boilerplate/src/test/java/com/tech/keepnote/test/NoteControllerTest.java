@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.tech.keepnote.controller.NoteController;
 import com.tech.keepnote.repository.NoteRepository;
 
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/beans.xml")
 public class NoteControllerTest {

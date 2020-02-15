@@ -1,10 +1,21 @@
 package com.tech.keepnote.controller;
 
+import java.time.*;
+
+import javax.naming.Context;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Controller;
+
+import com.tech.keepnote.model.Note;
+import com.tech.keepnote.repository.NoteRepository;
 
 /*Annotate the class with @Controller annotation. @Controller annotation is used to mark 
  * any POJO class as a controller so that Spring can recognize this class as a Controller
  * */
 
+@Controller
 public class NoteController {
 	/*
 	 * From the problem statement, we can understand that the application
@@ -22,7 +33,9 @@ public class NoteController {
 	 * Retrieve the Note object from the context.
 	 * Retrieve the NoteRepository object from the context.
 	 */
-	
+	ApplicationContext myContext = new ClassPathXmlApplicationContext("resources/beans.xml");
+	Note mynote = (Note)myContext.getBean("note");
+	NoteRepository myNoteRepository = (NoteRepository)myContext.getBean("noteRepository");
 	
 	/*Define a handler method to read the existing notes by calling the getAllNotes() method 
 	 * of the NoteRepository class and add it to the ModelMap which is an implementation of Map 

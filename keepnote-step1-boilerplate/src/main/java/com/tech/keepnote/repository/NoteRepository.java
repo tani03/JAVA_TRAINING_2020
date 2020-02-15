@@ -1,5 +1,6 @@
 package com.tech.keepnote.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.tech.keepnote.model.Note;
@@ -11,24 +12,26 @@ import com.tech.keepnote.model.Note;
  * */
 
 public class NoteRepository {
+	List<Note> mylist; 
 
 	/* Declare a variable called "list" to store all the notes. */
 
 	public NoteRepository() {
 
 		/* Initialize the variable using proper data type */
+		mylist = new ArrayList<Note>();
 	}
 
 	/* This method should return all the notes in the list */
 
 	public List<Note> getList() {
-		return null;
+		return mylist;
 	}
 
 	/* This method should set the list variable with new list of notes */
 
 	public void setList(List<Note> list) {
-
+		this.mylist = list;
 	}
 
 	/*
@@ -37,6 +40,7 @@ public class NoteRepository {
 	 */
 
 	public void addNote(Note note) {
+		mylist.add(note);
 
 	}
 
@@ -44,15 +48,21 @@ public class NoteRepository {
 
 	public boolean deleteNote(int noteId) {
 		/* Use list iterator to find matching note id and remove it from the list */
-		return false;
+		for (int i = 0; i < mylist.size(); i++) {
+			if(noteId==mylist.get(i).getNoteId()) {
+				mylist.remove(i);
+				return true;
+			}	
+		}
 		
+		return false;
 		
 	}
 
 	/* This method should return the list of notes */
 
 	public List<Note> getAllNotes() {
-		return null;
+		return mylist;
 	}
 
 	/*
@@ -62,6 +72,13 @@ public class NoteRepository {
 	 */
 
 	public boolean exists(int noteId) {
+		for (int i = 0; i < mylist.size(); i++) {
+			if(noteId==mylist.get(i).getNoteId()) {
+//				mylist.remove(i);
+				return true;
+			}	
+		}
+		
 		return false;
 	}
 }
