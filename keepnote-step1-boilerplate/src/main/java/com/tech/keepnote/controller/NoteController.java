@@ -1,12 +1,15 @@
 package com.tech.keepnote.controller;
 
 import java.time.*;
+import java.util.List;
 
 import javax.naming.Context;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tech.keepnote.model.Note;
 import com.tech.keepnote.repository.NoteRepository;
@@ -33,13 +36,21 @@ public class NoteController {
 	 * Retrieve the Note object from the context.
 	 * Retrieve the NoteRepository object from the context.
 	 */
-	ApplicationContext myContext = new ClassPathXmlApplicationContext("resources/beans.xml");
+	ApplicationContext myContext = new ClassPathXmlApplicationContext("beans.xml");
 	Note mynote = (Note)myContext.getBean("note");
 	NoteRepository myNoteRepository = (NoteRepository)myContext.getBean("noteRepository");
 	
 	/*Define a handler method to read the existing notes by calling the getAllNotes() method 
 	 * of the NoteRepository class and add it to the ModelMap which is an implementation of Map 
 	 * for use when building model data for use with views. it should map to the default URL i.e. "/" */
+	@RequestMapping("/")
+	public String getAllNotes(ModelMap map){
+		List<Note> myList = myNoteRepository.getAllNotes();
+		map.addAttribute("all list",myList);
+		return "index";
+		
+	}
+	
 	
 	
 	/*Define a handler method which will read the Note data from request parameters and

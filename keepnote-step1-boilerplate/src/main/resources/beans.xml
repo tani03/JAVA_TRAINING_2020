@@ -10,7 +10,7 @@
 	</bean>
 	
 	<!--  Add a bean element with ID as "noteRepository" for NoteRepository model -->
-	<bean id="noteRepository" class="com.tech.keepnote.repository.NoteRepository" scope="prototype">
+	<bean id="noteRepository" class="com.tech.keepnote.repository.NoteRepository">
 	</bean>
 	
 		
