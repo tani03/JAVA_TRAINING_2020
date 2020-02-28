@@ -2,6 +2,7 @@ package com.tech.keepnote.controller;
 
 import java.time.*;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 
@@ -10,6 +11,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tech.keepnote.model.Note;
 import com.tech.keepnote.repository.NoteRepository;
@@ -51,8 +53,6 @@ public class NoteController {
 		
 	}
 	
-	
-	
 	/*Define a handler method which will read the Note data from request parameters and
 	 * save the note by calling the addNote() method of NoteRepository class. Please note 
 	 * that the createdAt field should always be auto populated with system time and should not be accepted 
@@ -61,11 +61,50 @@ public class NoteController {
 	 * should be sent back to the view using ModelMap.
 	 * This handler method should map to the URL "/saveNote". 
 	*/
+	@RequestMapping("/saveNote")
+	public String addNote(ModelMap map, @RequestParam Map<String, String> noteMap) {
+		List<Note> myList = myNoteRepository.getAllNotes();
+		map.addAttribute("all list",myList);
+		
+		Integer noteId = Integer.parseInt(noteMap.get("noteId"));
+		String noteTitle = noteMap.get("noteTitle");
+		String noteContent = noteMap.get("noteContent");
+		String noteStatus = noteMap.get("noteStatus");
+		LocalDateTime noteCreatedAt = LocalDateTime.now();
+		
+		if (noteId != null && noteMap.get("noteTitle") != null && !noteMap.get("noteTitle").equals("")
+				&& noteMap.get("noteContent") != null && !noteMap.get("noteContent").equals("")
+				&& noteMap.get("noteStatus") != null && !noteMap.get("noteStatus").equals("")) {
+
+			mynote.setNoteId(noteId);
+			mynote.setNoteTitle(noteTitle);
+			mynote.setNoteContent(noteContent);
+			mynote.setNoteStatus(noteStatus);
+			mynote.setCreatedAt(noteCreatedAt);
+
+			myNoteRepository.addNote(mynote);
+			map.addAttribute("Id", mynote.getNoteId());
+			map.addAttribute("Title", mynote.getNoteTitle());
+			map.addAttribute("Content", mynote.getNoteContent());
+			map.addAttribute("Status", mynote.getNoteStatus());
+			map.addAttribute("CreatedDate", mynote.getCreatedAt());
+
+		}
+		return "index";
+
+	}
+	
 	
 	
 	/* Define a handler method to delete an existing note by calling the deleteNote() method 
 	 * of the NoteRepository class
 	 * This handler method should map to the URL "/deleteNote" 
 	*/
+	
+	@RequestMapping("/deleteNote")
+	public String deleteNote(ModelMap map) {
+		myNoteRepository.deleteNote(mynote.getNoteId());
+		return "index";
+	}
 	
 }
